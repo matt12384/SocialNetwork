@@ -1,89 +1,119 @@
 ﻿using FluentValidation.TestHelper;
 using SocialNetwork;
+using SocialNetwork.Data;
+using SocialNetwork.Security;
+using System.Threading;
 using Xunit;
 
 namespace UnitTests.Register
 {
     public class Validators
     {
-        private RegisterUser.Validator validator = new RegisterUser.Validator();
+        private readonly AppDbContext _context;
+        private RegisterUser.Validator _validator;
+        private readonly RegisterUser.Handler _commandHandler;
+        private readonly IPasswordHasher _hasher;
+
+        public Validators()
+        {
+            _context = TestHarness.GetContext();
+            _validator = new RegisterUser.Validator(_context);
+            _hasher = new PasswordHasher();
+            _commandHandler = new RegisterUser.Handler(_context, _hasher);
+        }
 
         [Fact]
         public void ShouldHaveErrorWhenFirstNameIsNull()
         {
-            validator.ShouldHaveValidationErrorFor(x => x.FirstName, null as string);
+            _validator.ShouldHaveValidationErrorFor(x => x.FirstName, null as string);
         }
 
         [Fact]
         public void ShouldHaveErrorWhenFirstNameIsEmpty()
         {
-            validator.ShouldHaveValidationErrorFor(x => x.FirstName, "");
+            _validator.ShouldHaveValidationErrorFor(x => x.FirstName, "");
         }
 
         [Fact]
         public void ShouldNotHaveErrorWhenFirstNameIsPopulated()
         {
-            validator.ShouldNotHaveValidationErrorFor(x => x.FirstName, "John");
+            _validator.ShouldNotHaveValidationErrorFor(x => x.FirstName, "John");
         }
 
         [Fact]
         public void ShouldHaveErrorWhenLastNameIsNull()
         {
-            validator.ShouldHaveValidationErrorFor(x => x.LastName, null as string);
+            _validator.ShouldHaveValidationErrorFor(x => x.LastName, null as string);
         }
 
         [Fact]
         public void ShouldHaveErrorWhenLastNameIsEmpty()
         {
-            validator.ShouldHaveValidationErrorFor(x => x.LastName, "");
+            _validator.ShouldHaveValidationErrorFor(x => x.LastName, "");
         }
 
         [Fact]
         public void ShouldNotHaveErrorWhenLastNameIsPopulated()
         {
-            validator.ShouldNotHaveValidationErrorFor(x => x.LastName, "Smith");
+            _validator.ShouldNotHaveValidationErrorFor(x => x.LastName, "Smith");
         }
 
         [Fact]
         public void ShouldHaveErrorWhenEmailIsNull()
         {
-            validator.ShouldHaveValidationErrorFor(x => x.Email, null as string);
+            _validator.ShouldHaveValidationErrorFor(x => x.Email, null as string);
         }
 
         [Fact]
         public void ShouldHaveErrorWhenEmailIsEmpty()
         {
-            validator.ShouldHaveValidationErrorFor(x => x.Email, "");
+            _validator.ShouldHaveValidationErrorFor(x => x.Email, "");
         }
 
         [Fact]
         public void ShouldHaveErrorWhenEmailIsNotValid()
         {
-            validator.ShouldHaveValidationErrorFor(x => x.Email, "123");
+            _validator.ShouldHaveValidationErrorFor(x => x.Email, "123");
+        }
+
+        [Fact]
+        public async void ShouldHaveErrorWhenEmailAlreadyExists()
+        {
+            var command = new RegisterUser.Command
+            {
+                Email = "john@smith.com",
+                Password = "Password!1",
+                FirstName = "John",
+                LastName = "Smith"
+            };
+
+            await _commandHandler.Handle(command, new CancellationToken());
+
+            _validator.ShouldHaveValidationErrorFor(x => x.Email, command);
         }
 
         [Fact]
         public void ShouldNotHaveErrorWhenEmailIsValid()
         {
-            validator.ShouldNotHaveValidationErrorFor(x => x.Email, "matt12384@live.co.uk");
+            _validator.ShouldNotHaveValidationErrorFor(x => x.Email, "matt12384@live.co.uk");
         }
 
         [Fact]
         public void ShouldHaveErrorWhenPasswordIsNull()
         {
-            validator.ShouldHaveValidationErrorFor(x => x.Password, null as string);
+            _validator.ShouldHaveValidationErrorFor(x => x.Password, null as string);
         }
 
         [Fact]
         public void ShouldHaveErrorWhenPasswordIsEmpty()
         {
-            validator.ShouldHaveValidationErrorFor(x => x.Password, "");
+            _validator.ShouldHaveValidationErrorFor(x => x.Password, "");
         }
 
         [Fact]
         public void ShouldNotHaveErrorWhenPasswordIsPopulated()
         {
-            validator.ShouldNotHaveValidationErrorFor(x => x.Password, "John");
+            _validator.ShouldNotHaveValidationErrorFor(x => x.Password, "John");
         }
 
         [Fact]
@@ -98,7 +128,7 @@ namespace UnitTests.Register
                 ConfirmPassword = "Password2!"
             };
 
-            validator.ShouldHaveValidationErrorFor(x => x.ConfirmPassword, user);
+            _validator.ShouldHaveValidationErrorFor(x => x.ConfirmPassword, user);
         }
 
         [Fact]
@@ -113,7 +143,7 @@ namespace UnitTests.Register
                 ConfirmPassword = "Password1!"
             };
 
-            validator.ShouldNotHaveValidationErrorFor(x => x.ConfirmPassword, user);
+            _validator.ShouldNotHaveValidationErrorFor(x => x.ConfirmPassword, user);
         }
     }
 }

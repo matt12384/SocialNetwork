@@ -32,7 +32,7 @@ namespace SocialNetwork
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddTransient<IValidator<RegisterUser.Command>, RegisterUser.Validator>();
+            services.AddValidatorsFromAssemblyContaining<Startup>();
 
         }
 
