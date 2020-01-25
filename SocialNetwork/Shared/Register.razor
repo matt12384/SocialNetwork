@@ -1,0 +1,27 @@
+﻿@using FluentValidation
+<h3>Register</h3>
+
+<EditForm Model="Command" OnValidSubmit="() => Submit()">
+    <FluentValidation.FluentValidator />
+    <label>Email address</label>
+    <InputText @bind-Value="Command.Email" />
+    <ValidationMessage For="() => Command.Email" />
+    <label>Password</label>
+    <InputText type="password" @bind-Value="Command.Password" />
+    <ValidationMessage For="() => Command.Password" />
+    <label>Confirm Password</label>
+    <InputText type="password" @bind-Value="Command.ConfirmPassword" />
+    <ValidationMessage For="() => Command.ConfirmPassword" />
+    <label>First name</label>
+    <InputText @bind-Value="Command.FirstName" />
+    <ValidationMessage For="() => Command.FirstName" />
+    <label>Last name</label>
+    <InputText @bind-Value="Command.LastName" />
+    <ValidationMessage For="() => Command.LastName" />
+    <input type="submit" />
+</EditForm>
+
+@code {
+    private RegisterUser.Command Command { get; set; } = new RegisterUser.Command();
+    async void Submit() => await Mediator.Send(Command);
+}
