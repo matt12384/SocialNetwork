@@ -1,0 +1,20 @@
+﻿<span class="button-wrapper @WrapperClass">
+    <button type="submit" class="@ButtonClass">
+        @if (!Loading)
+        {
+            <span>Submit</span>
+        }
+        else
+        {
+            <i class="fa fa-circle-o-notch fa-spin"></i>
+        }
+    </button>
+</span>
+
+@code {
+    [Parameter]
+    public bool Loading { get; set; }
+    
+    private string ButtonClass => Loading ? "pointer-events-none" : "";
+    private string WrapperClass => Loading ? "cursor-not-allowed" : "";
+}

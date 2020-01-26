@@ -642,7 +642,7 @@ h3 {
 
 .field {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .field label {
@@ -677,7 +677,8 @@ h3 {
   font-family: 'Roboto', sans-serif;
 }
 
-input[type="submit"] {
+input[type="submit"],
+button[type="submit"] {
   color: #fff;
   background-color: #48bb78;
   padding-left: 0.5rem;
@@ -690,13 +691,15 @@ input[type="submit"] {
   font-weight: 500;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover,
+  button[type="submit"]:hover {
   opacity: 0.8;
   -webkit-transition: 0.1s ease;
   transition: 0.1s ease;
 }
 
-input[type="submit"]:active {
+input[type="submit"]:active,
+  button[type="submit"]:active {
   opacity: 1;
   -webkit-transition: 0.1s ease;
   transition: 0.1s ease;
