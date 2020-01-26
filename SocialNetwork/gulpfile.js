@@ -22,7 +22,7 @@ gulp.task('watch', gulp.series('css', function () {
         './Pages/**/*.cshtml',
         './Pages/**/*.razor',
         './Shared/**/*.razor',
-        './Assets/scss/**/*/scss'
+        './Assets/scss/**/*.scss'
     ],
     gulp.series('css'));
 }));

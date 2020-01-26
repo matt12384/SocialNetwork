@@ -1,7 +1,7 @@
 ﻿@using FluentValidation
 
-<div class="register">
-    <h3>Register</h3>
+<div class="login">
+    <h3>Log in</h3>
 
     <EditForm Model="Command" OnValidSubmit="() => Submit()">
         <FluentValidation.FluentValidator />
@@ -14,21 +14,6 @@
             <label for="Password">Password</label>
             <InputText id="Password" type="password" @bind-Value="Command.Password" />
             <ValidationMessage For="() => Command.Password" />
-        </div>
-        <div class="field">
-            <label for="ConfirmPassword">Confirm Password</label>
-            <InputText id="ConfirmPassword" type="password" @bind-Value="Command.ConfirmPassword" />
-            <ValidationMessage For="() => Command.ConfirmPassword" />
-        </div>
-        <div class="field">
-            <label for="FirstName">First name</label>
-            <InputText id="FirstName" type="text" @bind-Value="Command.FirstName" />
-            <ValidationMessage For="() => Command.FirstName" />
-        </div>
-        <div class="field">
-            <label for="LastName">Last name</label>
-            <InputText id="LastName" type="text" @bind-Value="Command.LastName" />
-            <ValidationMessage For="() => Command.LastName" />
         </div>
         <input type="submit" />
     </EditForm>

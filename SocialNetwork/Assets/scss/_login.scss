@@ -1,0 +1,33 @@
+﻿.login-container {
+    @apply h-full w-full flex items-center justify-center;
+
+    .flex-wrapper {
+        @apply bg-white flex justify-center p-6 rounded-sm;
+    }
+}
+
+.divider {
+    @apply bg-green-500 w-px mx-6;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes example {
+    from {
+        height: 100%;
+    }
+
+    to {
+        height: 0%;
+    }
+}
+
+/* Standard syntax */
+@keyframes example {
+    from {
+        height: auto;
+    }
+
+    to {
+        height: 0px;
+    }
+}

@@ -1,0 +1,46 @@
+﻿*:focus {
+    outline: none;
+}
+
+.field {
+    @apply block mb-2;
+
+    label {
+        @apply block;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        @apply block border-b border-gray-500;
+        transition: 0.2s ease;
+        font-family: 'Roboto', sans-serif;
+
+        &:focus {
+            @apply border-b-2 border-green-500;
+        }
+
+        &.invalid {
+            @apply border-b-2 border-red-500;
+        }
+    }
+
+    .validation-message {
+        @apply text-red-500;
+        font-family: 'Roboto', sans-serif;
+    }
+}
+
+input[type="submit"] {
+    @apply text-white bg-green-500 px-2 py-1 rounded-sm cursor-pointer uppercase font-medium;
+
+    &:hover {
+        opacity: 0.8;
+        transition: 0.1s ease;
+    }
+
+    &:active {
+        opacity: 1;
+        transition: 0.1s ease;
+    }
+}
